@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 # Find directory
 def findDirectory()->Path:
@@ -9,15 +8,17 @@ def findDirectory()->Path:
 
     if path.exists() == False or not path.is_dir():
         print("Directory not found!")
-        findDirectory()
-        
-    print("Directory Found!\n")
+        return findDirectory()
+    else:
+        print("Directory Found!\n")
     
     return path
 
 # Rename files to have base name, hyphen, index
 def baseHyphenIndex(p: Path):
     '''Name - 01'''
+    videoNameBase = input("Enter file name base: ")
+
     currentVideoIndex = 1;
     
     for file in p.iterdir():
@@ -35,6 +36,8 @@ def baseHyphenIndex(p: Path):
 # Rename files to have base name, index
 def baseIndex(p: Path):
     '''Name 01'''
+    videoNameBase = input("Enter file name base: ")
+
     currentVideoIndex = 1;
 
     for file in p.iterdir():
@@ -52,6 +55,8 @@ def baseIndex(p: Path):
 # Rename files to have index, hyphen, base name
 def indexHyphenBase(p: Path):
     '''01 - Name'''
+    videoNameBase = input("Enter file name base: ")
+
     currentVideoIndex = 1;
 
     for file in p.iterdir():    
@@ -69,6 +74,8 @@ def indexHyphenBase(p: Path):
 # Rename files to have index, base name
 def indexBase(p: Path):
     '''01 Name'''
+    videoNameBase = input("Enter file name base: ")
+    
     currentVideoIndex = 1;
 
     for file in p.iterdir():    
@@ -84,9 +91,8 @@ def indexBase(p: Path):
         currentVideoIndex += 1
 
 
-if __name__ == '__main__':
-    path = findDirectory()
-    
+# Picks the naming convention used
+def chooseNamingConvention(p: Path):
     print("CHOOSE NAMING CONVENTION")
     print("(1) Name Base - 01")
     print("(2) Name Base 01")
@@ -95,13 +101,23 @@ if __name__ == '__main__':
 
     conventionChoice = input("\nEnter convention choice: ")
 
-    videoNameBase = input("Enter file name base: ")
-
     if conventionChoice == "1":
-        baseHyphenIndex(path)
+        baseHyphenIndex(p)
     elif conventionChoice == "2":
-        baseIndex(path)
+        baseIndex(p)
     elif conventionChoice == "3":
-        indexHyphenBase(path)
+        indexHyphenBase(p)
     elif conventionChoice == "4":
-        indexBase(path)
+        indexBase(p)
+    else:
+        print("INVALID INPUT\n")
+        chooseNamingConvention(p)
+
+if __name__ == '__main__':
+    path = findDirectory()
+
+    chooseNamingConvention(path)
+
+    print("\nRenaming Complete")
+    
+    
